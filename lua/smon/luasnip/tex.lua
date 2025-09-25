@@ -77,4 +77,16 @@ return{
         {l("\\vec{" .. l.POSTFIX_MATCH .. "}")}, 
         { condition=math }
     ),
+    s({trig=";I",snippetType="autosnippet",desc="integral with infinite or inserted limits",wordTrig=false},
+    fmta([[
+        <>
+        ]],
+        {
+        c(1,{
+            t("\\int_{-\\infty}^\\infty"),
+            sn(nil,fmta([[ \int_{<>}^{<>} ]],{i(1),i(2)})),
+            })
+        }
+    )
+),
 }
