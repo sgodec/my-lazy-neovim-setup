@@ -1,0 +1,139 @@
+"set background=dark
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+set copyindent
+set cursorline
+set incsearch
+set hlsearch
+set clipboard=unnamedplus
+
+
+
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit
+
+call plug#begin('~/.local/share/nvim/plugged')
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'deoplete-plugins/deoplete-jedi'
+"Plug 'JuliaEditorSupport/deoplete-julia'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'tmhedberg/SimpylFold'
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'arthurxavierx/vim-unicoder'
+Plug 'preservim/nerdtree'
+"Plug 'prabirshrestha/vim-lsp'
+
+
+Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'vim-python/python-syntax'
+Plug 'joshdick/onedark.vim'
+  
+call plug#end()
+
+
+nnoremap <Leader>t :silent !tmux split-window -v -l $(( $(tput lines) * 15 / 100 )) -c "\#{pane_current_path}" &<CR>:redraw!<CR>
+" Enable deoplete
+let g:deoplete#enable_at_startup = 1
+
+" Use lsp as source for deoplete
+"let g:deoplete#sources#vim_lsp#enable = 1
+
+let g:unicoder_command_abbreviations = 1
+
+let g:python3_host_prog = '/usr/bin/python3'
+
+" Function to check if popup menu is visible
+function! Pum_visible() abort
+  return pumvisible() == 1
+endfunction
+inoremap <expr> <S-Tab> Pum_visible() ? "\<C-n>" : "\<C-h>"
+
+
+syntax on
+filetype plugin indent on
+
+set number
+set relativenumber
+set noshowmode
+set noruler
+set linespace=3
+set laststatus=2
+set mouse=nv
+set termguicolors
+
+let g:python_highlight_all = 1
+"colorscheme PaperColor
+"colorscheme gruvbox
+let g:onedark_config = {
+  \ 'style': 'deep',
+  \ 'toggle_style_key': '<leader>ts',
+  \ 'ending_tildes': v:true,
+  \ 'diagnostics': {
+    \ 'darker': v:false,
+    \ 'background': v:false,
+  \ },
+\ }
+colorscheme onedark
+hi Normal guifg=#E5E9F0 ctermfg=145
+"hi Normal guifg=#FFFFFF ctermfg=15
+hi Comment guifg=#AAAAAA ctermfg=250
+hi Folded guifg=#D0D0D0 guibg=#3a3a3a ctermfg=253 ctermbg=238
+hi LineNr guifg=#98c379 ctermfg=112
+hi Visual guifg=#ffffff guibg=#ff005f gui=none ctermfg=15 ctermbg=197
+hi CursorLine guibg=#2a2a2a ctermbg=236 
+"hi CursorLine guifg=NONE guibg=NONE gui=reverse cterm=reverse
+set cursorline
+set cursorcolumn
+
+hi CursorColumn guibg=#444444 guifg=NONE ctermbg=237 ctermfg=NONE
+
+hi Normal ctermbg=none guibg=none
+hi NormalNC ctermbg=none guibg=none
+hi LineNr ctermbg=none guibg=none
+hi SignColumn ctermbg=none guibg=none
+hi VertSplit ctermbg=none guibg=none
+hi EndOfBuffer ctermbg=none guibg=none
+
+nnoremap <C-S> :wqa!<CR>
+nnoremap <C-X> :w!<CR>
+nnoremap <C-Q> :q!<CR>
+"inoremap <C-X> <Esc>
+"vnoremap <C-X> <Esc>
+"nnoremap <C-y> :%y+<CR>
+
+autocmd FileType cpp,c,h setlocal shiftwidth=4 tabstop=4 expandtab
+
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "~/.vim/snippets"]
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+let g:UltiSnipsEditSplit="vertical"
+
+snoremap <Tab>      <Plug>(UltiSnipsExpandSnippet)
+:set foldmethod=indent
+nnoremap <space> za
+
+autocmd FileType julia setlocal autoindent
+autocmd BufWritePre *.jl silent! execute "normal! mzgg=G`z"
+
+autocmd StdinReadPre * let s:std_in = 1
+
+"automatically opens NERDTree
+"autocmd VimEnter * NERDTree
+
+nmap <C-n> :NERDTree<CR>
+
+set laststatus=2
+set statusline=%#PmenuSel#  " color highlight (depends on your colorscheme)
+set statusline+=\ ▶\ %F         " full file path
+set statusline+=\ %=       " right align rest
+set statusline+=\ [%{&filetype}]  " filetype in brackets
+set statusline+=\ %m       " modified flag
+set statusline+=\ %{strftime('%H:%M')}  " current time
+
+
