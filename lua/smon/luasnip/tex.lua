@@ -1,8 +1,5 @@
 require('texpresso').attach()
-
 local autocmd = vim.api.nvim_create_autocmd
-
-
 local ls = require("luasnip")
 local s = ls.snippet
 local i = ls.insert_node
@@ -43,6 +40,7 @@ local function math()
 end
 
 return{
+
     s({trig="fig", snippetType="snippet", dscr="A basic figure environment"},
         fmta(
             [[
@@ -75,25 +73,180 @@ return{
         )
     ),
 
-    --postfixes for vectors, hats, etc. The match pattern is '\\' plus the default (so that hats get put on greek letters,e.g.)
-    postfix({trig="hat", match_pattern = [[[\\%w%.%_%-%"%']+$]], snippetType="autosnippet",dscr="postfix hat when in math mode"},
-        {l("\\hat{" .. l.POSTFIX_MATCH .. "}")}, 
-        { condition=math }
-    ) ,
-    postfix({trig="vec", match_pattern = [[[\\%w%.%_%-%"%']+$]] ,snippetType="autosnippet",dscr="postfix vec when in math mode"},
-        {l("\\vec{" .. l.POSTFIX_MATCH .. "}")}, 
-        { condition=math }
-    ),
-    s({trig=";I",snippetType="autosnippet",desc="integral with infinite or inserted limits",wordTrig=false},
-    fmta([[
-        <>
+    s({trig="lbl", dscr="Label"},
+        fmta(
+            [[
+        \label{<>}
         ]],
+            { i(1, "label_name") }
+        )
+    ),
+
+    s({trig="ref", dscr="Reference"},
+        fmta(
+            [[
+        \ref{<>}
+        ]],
+            { i(1, "label_name") }
+        )
+    ),
+
+    s({trig="thm", dscr="Theorem environment"},
+        fmta(
+            [[
+        \begin{theorem}[<>]
+            <>
+        \end{theorem}
+        ]],
+            { i(1, "Optional name"), i(2) }
+        )
+    ),
+
+    s({trig="proof", dscr="Proof environment"},
+        fmta(
+            [[
+        \begin{proof}
+            <>
+        \end{proof}
+        ]],
+            { i(1) }
+        )
+    ),
+
+    s({trig="sec", dscr="Section"},
+        fmta(
+            [[
+        \section{<>}
+        <>]],
+            { i(1, "Section title"), i(0) }
+        )
+    ),
+    s({trig="ssec", dscr="Subsection"},
+        fmta(
+            [[
+        \subsection{<>}
+        <>]],
+            { i(1, "Subsection title"), i(0) }
+        )
+    ),
+    s({trig="sssec", dscr="Subsubsection"},
+        fmta(
+            [[
+        \subsubsection{<>}
+        <>]],
+            { i(1, "Subsubsection title"), i(0) }
+        )
+    ),
+
+    s({trig="itemize", dscr="Itemize environment"},
+        fmta(
+            [[
+        \begin{itemize}
+            \item <>
+            \item <>
+        \end{itemize}
+        ]],
+            { i(1), i(2) }
+        )
+    ),
+    s({trig="enum", dscr="Enumerate environment"},
+        fmta(
+            [[
+        \begin{enumerate}
+            \item <>
+            \item <>
+        \end{enumerate}
+        ]],
+            { i(1), i(2) }
+        )
+    ),
+
+    s({trig="frac", dscr="Fraction"},
+        fmta(
+            [[
+        \frac{<>}{<>}
+        ]],
+            { i(1), i(2) }
+        )
+    ),
+
+    s({trig="diff", dscr="Derivative"},
+        fmta(
+            [[
+        \frac{d<>}{d<>}
+        ]],
+            { i(1), i(2) }
+        )
+    ),
+
+    s({trig="sum", dscr="Sum with limits"},
+        fmta(
+            [[
+        \sum_{<>}^{<>}
+        ]],
+            { i(1, "i=1"), i(2, "n") }
+        )
+    ),
+
+    s("int", fmta([[
+    \int_{<>}^{<>} <> \ \mathrm{d} <>
+  ]], {
+            i(1, "-\\infty"),
+            i(2, "\\infty"),
+            i(3, "f(x)"),
+            i(4, "x"),
+        })),
+
+    s("pder", fmta([[
+    \frac{\partial <>}{\partial <>}
+  ]], {
+            i(1, "f"),
+            i(2, "x"),
+        })),
+
+    postfix(
         {
-        c(1,{
-            t("\\int_{-\\infty}^\\infty"),
-            sn(nil,fmta([[ \int_{<>}^{<>} ]],{i(1),i(2)})),
-            })
-        }
-    )
-),
+            trig = "hat",
+            match_pattern = [[[\\%w%.%_%-%"%']+$]],
+            snippetType = "autosnippet",
+            dscr = "postfix hat when in math mode",
+        },
+        {
+            t("\\hat{"),
+            f(function(_, snip) return snip.env.POSTFIX_MATCH end),
+            t("}"),
+        },
+        { condition = math }
+    ),
+
+    postfix(
+        {
+            trig = "bf",
+            match_pattern = [[[\\%w%.%_%-%"%']+$]],
+            snippetType = "autosnippet",
+            dscr = "mathbf mode",
+        },
+        {
+            t("\\mathbf{"),
+            f(function(_, snip) return snip.env.POSTFIX_MATCH end),
+            t("}"),
+        },
+        { condition = math }
+    ),
+
+    postfix(
+        {
+            trig = "rm",
+            match_pattern = [[[\\%w%.%_%-%"%']+$]],
+            snippetType = "autosnippet",
+            dscr = "mathrm mode",
+        },
+        {
+            t("\\mathrm{"),
+            f(function(_, snip) return snip.env.POSTFIX_MATCH end),
+            t("}"),
+        },
+        { condition = math }
+    ),
+
 }

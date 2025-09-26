@@ -2,6 +2,9 @@ print("hello Smon")
 require("smon.remap")
 require("smon.settings")
 require("smon.lazy_init")
-require("smon.texpresso")
-
-
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "tex",
+  callback = function()
+    require("smon.texpresso").attach()
+  end,
+})

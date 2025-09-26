@@ -243,12 +243,25 @@ end
 -- Use VIM theme in TeXpresso
 function M.theme()
   local colors = vim.api.nvim_get_hl_by_name("Normal", true)
+
+  local bg = format_color(colors.background)
+  local fg = format_color(colors.foreground)
+
+  -- Invert colors (normalized floats)
+  local bg_inverted = {1 - bg[1], 1 - bg[2], 1 - bg[3]}
+  local fg_inverted = {1 - fg[1], 1 - fg[2], 1 - fg[3]}
+
   if colors.background and colors.foreground then
     M.send(
       "theme",
-      format_color(colors.background),
-      format_color(colors.foreground)
+      bg_inverted,
+      fg_inverted
     )
+    --M.send(
+    --  "theme",
+    --  format_color(colors.background),
+    --  format_color(colors.foreground)
+    --)
   end
 end
 
@@ -384,5 +397,6 @@ vim.api.nvim_create_user_command('TeXpressoSync', function()
     do_sync()
   end
 end, {})
+
 
 return M
