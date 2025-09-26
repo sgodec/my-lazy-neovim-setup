@@ -1,4 +1,5 @@
 require('texpresso').attach()
+
 local autocmd = vim.api.nvim_create_autocmd
 
 
@@ -30,6 +31,12 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
+autocmd({"InsertLeave"},{
+    group = vim.api.nvim_create_augroup('texpressoGroup',{}),
+    callback = function()
+        vim.cmd("TeXpressoSync")
+    end
+    })
 
 local function math()
     return vim.api.nvim_eval('vimtex#syntax#in_mathzone()') == 1
