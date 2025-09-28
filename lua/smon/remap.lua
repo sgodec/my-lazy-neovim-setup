@@ -31,6 +31,10 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
+--Vimtex remaps
+vim.api.nvim_set_keymap('n', '<leader>tc', ':VimtexClean<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tw', ':VimtexView<CR>', { noremap = true, silent = true })
+
 
 
 
