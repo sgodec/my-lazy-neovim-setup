@@ -39,7 +39,7 @@ local function math()
     return vim.api.nvim_eval('vimtex#syntax#in_mathzone()') == 1
 end
 
-return{
+snippets = {
 
     s({trig="fig", snippetType="snippet", dscr="A basic figure environment"},
         fmta(
@@ -316,4 +316,82 @@ return{
         { condition = math }
     ),
 
+    postfix(
+        {
+            trig = "cal",
+            match_pattern = [[[\\%w%.%_%-%"%']+$]],
+            snippetType = "autosnippet",
+            dscr = "cal mode",
+        },
+        {
+            t("\\mathcal{"),
+            f(function(_, snip) return snip.env.POSTFIX_MATCH end),
+            t("}"),
+        },
+        { condition = math }
+    ),
+
+    postfix(
+        {
+            trig = "bb",
+            match_pattern = [[[\\%w%.%_%-%"%']+$]],
+            snippetType = "autosnippet",
+            dscr = "mathbb mode",
+        },
+        {
+            t("\\mathbb{"),
+            f(function(_, snip) return snip.env.POSTFIX_MATCH end),
+            t("}"),
+        },
+        { condition = math }
+    ),
 }
+
+local greek_letters = {
+  a = "alpha", b = "beta", g = "gamma", d = "delta",
+  e = "epsilon", ev = "varepsilon", z = "zeta", h = "eta", t = "theta",
+  i = "iota", k = "kappa", l = "lambda", m = "mu",
+  n = "nu", x = "xi", p = "pi", r = "rho", s = "sigma",
+  u = "tau", f = "phi", c = "chi", o = "omega",
+}
+
+for key, name in pairs(greek_letters) do
+  table.insert(snippets, s({
+    trig = ";" .. key,
+    name = name,
+    dscr = "\\" .. name,
+    regTrig = true,
+    wordTrig = false,
+    snippetType = "autosnippet",
+    autosnippet = true,
+    condition = math,
+  }, {
+    t("\\" .. name),
+  }))
+end
+
+
+local greek_caps = {
+  G = "Gamma", D = "Delta", T = "Theta", L = "Lambda",
+  X = "Xi", P = "Pi", S = "Sigma", U = "Upsilon",
+  F = "Phi", C = "Chi", O = "Omega", 
+}
+
+for key, name in pairs(greek_caps) do
+  table.insert(snippets, s({
+    trig = ";" .. key,
+    name = name,
+    dscr = "\\" .. name,
+    regTrig = true,
+    wordTrig = false,
+    snippetType = "autosnippet",
+    autosnippet = true,
+    condition = math,
+  }, {
+    t("\\" .. name),
+  }))
+end
+
+
+return snippets
+
