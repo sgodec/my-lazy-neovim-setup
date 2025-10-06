@@ -16,6 +16,19 @@ return {
             t(")"),
             i(0),
         }),
+
+    s({
+        trig = "%$",
+        regTrig = true,
+        wordTrig = false,
+        snippetType = "snippet",
+        desc = "faster $$"
+    }, {
+            t("$"),
+            i(1), 
+            t("$"),
+            i(0),
+        }),
     
     s({
         trig = "%[",
