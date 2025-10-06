@@ -62,6 +62,73 @@ return{
         )
     ),
 
+    s({ trig = "zapiski", snippetType = "snippet", dscr = "Zapiski LaTeX document with fixed author" },
+      fmta([[
+    \documentclass{article}
+    \usepackage{amsmath}
+    \usepackage{hyperref}
+    \usepackage[dvipsnames]{xcolor}   
+    \usepackage[utf8]{inputenc}
+    \usepackage{geometry}
+     \geometry{
+     a4paper,
+     total={170mm,257mm},
+     left=20mm,
+     top=20mm,
+     }
+    \usepackage{graphicx}
+    \usepackage{titling}
+
+    \title{<>}
+    \author{Simon Godec}
+    \date{\today}
+
+    \usepackage{fancyhdr}
+    \fancypagestyle{plain}{%
+        \fancyhf{} 
+        \fancyfoot[R]{\includegraphics[width=4cm]{}}
+        \fancyfoot[L]{\thedate}
+        \fancyhead[L]{<>}
+        \fancyhead[R]{\theauthor}
+    }
+    \makeatletter
+    \def\@maketitle{%
+      \newpage
+      \null
+      \vskip 1em%
+      \begin{center}%
+      \let \footnote \thanks
+        {\LARGE \@title \par}%
+        \vskip 1em%
+      \end{center}%
+      \par
+      \vskip 1em}
+    \makeatother
+
+    \usepackage{cmbright}
+
+    \begin{document}
+
+    \maketitle
+
+    \noindent\begin{tabular}{@{}ll}
+        Študent & Simon Godec \ 282420202\\
+        Mentor & <> \\
+        Kontakt & \href{mailto:sg74586@student.uni-lj.si}{\texttt{{\color{purple}sg74586@student.uni-lj.si}}}\\
+    \end{tabular}
+
+    \section*{Uvod}
+
+    \end{document}
+      ]],
+      {
+        i(1),
+        rep(1),
+        i(2),
+    }
+        )
+    ),
+
     s({trig="env", snippetType="snippet", dscr="Begin and end an arbitrary environment"},
         fmta(
             [[
