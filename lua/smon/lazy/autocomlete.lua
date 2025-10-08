@@ -26,7 +26,32 @@ return {
             -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
             -- see the "default configuration" section below for full documentation on how to define
             -- your own keymap.
-            keymap = { preset = 'enter' },
+            --keymap = {},
+        keymap = {
+          -- set to 'none' to disable the 'default' preset
+                preset = 'none',
+                ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+                ['<C-e>'] = { 'hide', 'fallback' },
+                ['<CR>'] = { 'accept', 'fallback' },
+
+                --['<Tab>'] = { 'snippet_forward', 'fallback' },
+                --['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+                ['<Up>'] = { 'select_prev', 'fallback' },
+                ['<Down>'] = { 'select_next', 'fallback' },
+                ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
+                ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
+
+                ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+                ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+
+                ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+
+            },
+
+
+
+
             snippets = { preset = 'luasnip' },
             sources = {
                 default = { 'lsp', 'path','cmdline','snippets', 'buffer','vimtex' },

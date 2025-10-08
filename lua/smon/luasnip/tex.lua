@@ -136,7 +136,37 @@ snippets = {
             <>
         \end{<>}
         ]],
-            {i(1),i(2),rep(1),}
+            {i(1),i(0),rep(1),}
+        )
+    ),
+    s({trig="eq", snippetType="snippet", dscr="Begin and end an equation environment"},
+        fmta(
+            [[
+        \begin{equation}
+            <>
+        \end{equation}
+        ]],
+            {i(1)}
+        )
+    ),
+    s({trig="eq*", snippetType="snippet", dscr="Begin and end an equation environment"},
+        fmta(
+            [[
+        \begin{equation*}
+            <>
+        \end{equation*}
+        ]],
+            {i(1)}
+        )
+    ),
+    s({trig="align", snippetType="snippet", dscr="Begin and end an align environment"},
+        fmta(
+            [[
+        \begin{align}
+            <>
+        \end{align}
+        ]],
+            {i(1)}
         )
     ),
 
@@ -165,7 +195,7 @@ snippets = {
             <>
         \end{theorem}
         ]],
-            { i(1, "Optional name"), i(2) }
+            { i(1, "Optional name"), i(0) }
         )
     ),
 
@@ -268,7 +298,7 @@ snippets = {
     \frac{\partial <>}{\partial <>}
   ]], {
             i(1, "f"),
-            i(2, "x"),
+            i(0, "x"),
         })),
 
     postfix(
@@ -391,7 +421,6 @@ for key, name in pairs(greek_caps) do
     t("\\" .. name),
   }))
 end
-
 
 return snippets
 
